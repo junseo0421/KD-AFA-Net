@@ -1,7 +1,7 @@
-## KD-AFA-Net
+# KD-AFA-Net
 
-# Datasets
+## Datasets
 
-# Implementation
+## Implementation
 
-# Model weights
+## Model weights
