@@ -25,7 +25,7 @@ class DoubleConv(nn.Module):
         return self.double_conv(x)
 
 class DepthwiseSeparableConv(nn.Module):
-    def __init__(self, in_channels, out_channels, kernel_size=3, stride=1, padding=1, bias=True):  # BN이 없으므로 bias=True, 데이터 분포 보정 보완
+    def __init__(self, in_channels, out_channels, kernel_size=3, stride=1, padding=1, bias=True): 
         super(DepthwiseSeparableConv, self).__init__()
         self.depthwise = nn.Conv2d(in_channels, in_channels, kernel_size, stride, padding, groups=in_channels, bias=bias)
         self.pointwise = nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=1, bias=bias)
@@ -176,5 +176,6 @@ class Sep_AFA_Down(nn.Module):
         x_concat = torch.cat((x, x_afa), dim=1)
 
         return self.maxpool_conv(x_concat)
+
 
 
