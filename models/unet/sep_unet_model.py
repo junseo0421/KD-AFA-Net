@@ -134,7 +134,7 @@ class AFA_Net(nn.Module):
         return logits, {"x1": x1, "x1_out": x1_output, "x2": x2, "x2_out": x2_output, "x3": x3, "x3_out": x3_output, "x4": x4, "x4_out": x4_output, "x5": x5}
 
 
-class LAFA_Net(nn.Module):  # m = 4, feature 1/8
+class LAFA_Net(nn.Module):
     def __init__(self, n_channels, n_classes, bilinear=False):
         super(LAFA_Net, self).__init__()
         self.n_channels = n_channels
@@ -264,5 +264,6 @@ class LAFA_Net(nn.Module):  # m = 4, feature 1/8
         #output
         logits = self.outc(x)
         return logits, {"x1": x1, "x1_out": x1_output, "x2": x2, "x2_out": x2_output, "x3": x3, "x3_out": x3_output, "x4": x4}
+
 
 
