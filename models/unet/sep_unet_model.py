@@ -166,22 +166,33 @@ class LAFA_Net(nn.Module):  # m = 4, feature 1/8
         self.low_attention_weights3 = torch.nn.Parameter(torch.randn(16, 16, 1, 1))
         self.high_attention_weights3 = torch.nn.Parameter(torch.randn(16, 16, 1, 1))
 
+        nn.init.kaiming_uniform_(self.low_attention_weights1, a=0, mode='fan_in', nonlinearity='relu')
+        nn.init.kaiming_uniform_(self.high_attention_weights1, a=0, mode='fan_in', nonlinearity='relu')
+
+        nn.init.kaiming_uniform_(self.low_attention_weights2, a=0, mode='fan_in', nonlinearity='relu')
+        nn.init.kaiming_uniform_(self.high_attention_weights2, a=0, mode='fan_in', nonlinearity='relu')
+
+        nn.init.kaiming_uniform_(self.low_attention_weights3, a=0, mode='fan_in', nonlinearity='relu')
+        nn.init.kaiming_uniform_(self.high_attention_weights3, a=0, mode='fan_in', nonlinearity='relu')
+
         self.concat_conv1 = nn.Conv2d(8, 4, kernel_size=3, padding=1)
         self.concat_conv2 = nn.Conv2d(16, 8, kernel_size=3, padding=1)
         self.concat_conv3 = nn.Conv2d(32, 16, kernel_size=3, padding=1)
 
-        self.bn1 = nn.BatchNorm2d(4)
-        self.bn2 = nn.BatchNorm2d(8)
-        self.bn3 = nn.BatchNorm2d(16)
+        self.bn1 = nn.BatchNorm2d(4, eps=1e-4)
+        self.bn2 = nn.BatchNorm2d(8, eps=1e-4)
+        self.bn3 = nn.BatchNorm2d(16, eps=1e-4)
 
         self.relu = nn.ReLU(inplace=True)
 
     def afa_module(self, x, low_attention_weight, high_attention_weight):
         cuton = 0.1
         x_ft = torch.fft.fft2(x, norm="ortho")
-        x_shift = torch.fft.fftshift(x_ft)
+        x_shift = torch.fft.fftshift(x_ft, dim=(-2, -1))
 
         magnitude = torch.abs(x_shift)
+        magnitude = magnitude.clamp(min=1e-6, max=1e6)
+
         phase = torch.angle(x_shift)
 
         h, w = x_shift.shape[2:4]
@@ -193,8 +204,12 @@ class LAFA_Net(nn.Module):  # m = 4, feature 1/8
 
         high_pass = magnitude - low_pass
 
-        low_attn_map = torch.nn.functional.conv2d(low_pass, low_attention_weight, padding=0)
+        low_attn_map = torch.nn.functional.conv2d(low_pass, low_attention_weight,
+                                                  padding=0)
         high_attn_map = torch.nn.functional.conv2d(high_pass, high_attention_weight, padding=0)
+
+        low_attn_map = low_attn_map - low_attn_map.amax(dim=1, keepdim=True)
+        high_attn_map = high_attn_map - high_attn_map.amax(dim=1, keepdim=True)
 
         low_attn_map = torch.nn.functional.softmax(low_attn_map, dim=1)
         high_attn_map = torch.nn.functional.softmax(high_attn_map, dim=1)
@@ -203,13 +218,14 @@ class LAFA_Net(nn.Module):  # m = 4, feature 1/8
         high_pass_att = high_attn_map * high_pass
 
         mag_out = low_pass_att + high_pass_att
+        mag_out = mag_out.clamp(min=1e-6, max=1e6)
 
         real = mag_out * torch.cos(phase)
         imag = mag_out * torch.sin(phase)
 
         fre_out = torch.complex(real, imag)
 
-        x_fft = torch.fft.ifftshift(fre_out)
+        x_fft = torch.fft.ifftshift(fre_out, dim=(-2, -1))
 
         out = torch.fft.ifft2(x_fft, s=(x.size(-2), x.size(-1)), norm="ortho").real
 
