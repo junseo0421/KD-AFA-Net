@@ -305,7 +305,7 @@ if __name__ == '__main__':
 
         parser = argparse.ArgumentParser()
         parser.add_argument('--data_dir', type=str,
-                            default='datasets', help='dataset directory')
+                            default='./datasets', help='dataset directory')
         parser.add_argument('--save_dir', type=str,
                             default='Output', help='save directory')
         parser.add_argument('--name_dataset', type=str, choices=['HKdb-1', 'HKdb-2', 'SDdb-1', 'SDdb-2'],
@@ -470,3 +470,4 @@ if __name__ == '__main__':
             torch.save(dis.state_dict(), join(args.save_weight_dir, 'Dis_former_%d.pt' % epoch))
 
     writer.close()
+
