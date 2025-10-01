@@ -150,9 +150,9 @@ class LAFA_Net(nn.Module):  # m = 4, feature 1/8
         factor = 2 if bilinear else 1
 
         # decoder
-        self.up1 = (SepUp(32, 16 // factor, bilinear))
-        self.up2 = (SepUp(16, 8 // factor, bilinear))
-        self.up3 = (SepUp(8, 4, bilinear))
+        self.up2 = (SepUp(32, 16 // factor, bilinear))
+        self.up3 = (SepUp(16, 8 // factor, bilinear))
+        self.up4 = (SepUp(8, 4, bilinear))
 
         # Output layer
         self.outc = (OutConv(4, n_classes))
@@ -241,11 +241,12 @@ class LAFA_Net(nn.Module):  # m = 4, feature 1/8
         x1_output = self.relu(x1_output)
 
         # decoder
-        x = self.up1(x4, x3_output)
-        x = self.up2(x, x2_output)
-        x = self.up3(x, x1_output)
+        x = self.up2(x4, x3_output)
+        x = self.up3(x, x2_output)
+        x = self.up4(x, x1_output)
 
         #output
         logits = self.outc(x)
         return logits, {"x1": x1, "x1_out": x1_output, "x2": x2, "x2_out": x2_output, "x3": x3, "x3_out": x3_output, "x4": x4}
+
 
