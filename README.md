@@ -8,5 +8,6 @@
 * Pytorch >= 2.5.1
 
 ## Model weights 
-* [KD-AFA-Net weight](https://drive.google.com/file/d/1Btv5Ax2g03PG_io1tNnvpyFXfGMmaENA/view?usp=drive_link)
+* [KD-AFA-Net weight](https://drive.google.com/file/d/1TQAzdOqQ-Y2opuswY8IftyMy_j-84Ytz/view?usp=sharing)
+
 
