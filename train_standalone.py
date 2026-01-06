@@ -258,11 +258,9 @@ if __name__ == '__main__':
         parser.add_argument('--load_pretrain', type=bool, help='load pretrain weight', default=False)
         parser.add_argument('--test_flag', type=bool, help='testing while training', default=False)
         parser.add_argument('--adjoint', type=bool, help='if use adjoint in odenet', default=True)
-        parser.add_argument('--load_weight_dir', type=str, help='directory of pretrain model weights',
-                            default=LOAD_WEIGHT_DIR)
-        parser.add_argument('--save_weight_dir', type=str, help='directory of saving model weights',
-                            default=SAVE_WEIGHT_DIR)
-        parser.add_argument('--log_dir', type=str, help='directory of saving logs', default=SAVE_LOG_DIR)
+        parser.add_argument('--load_weight_dir', type=str, help='directory of pretrain model weights')
+        parser.add_argument('--save_weight_dir', type=str, help='directory of saving model weights',)
+        parser.add_argument('--log_dir', type=str, help='directory of saving logs')
 
         opts = parser.parse_args()
         return opts
@@ -273,9 +271,9 @@ if __name__ == '__main__':
     name_dataset = args.name_dataset
     SAVE_BASE_DIR = args.save_dir
 
-    SAVE_WEIGHT_DIR = join(SAVE_BASE_DIR, name_model, name_dataset, 'checkpoints')
-    SAVE_LOG_DIR = join(SAVE_BASE_DIR, name_model, name_dataset, 'logs_all')
-    LOAD_WEIGHT_DIR = join(SAVE_BASE_DIR, name_model, name_dataset, 'checkpoints')
+    args.save_weight_dir = join(SAVE_BASE_DIR, name_model, name_dataset, 'checkpoints')
+    args.log_dir = join(SAVE_BASE_DIR, name_model, name_dataset, 'logs_all')
+    args.load_weight_dir = join(SAVE_BASE_DIR, name_model, name_dataset, 'checkpoints')
 
     base_dir = args.data_dir
 
@@ -365,14 +363,14 @@ if __name__ == '__main__':
     transformations_valid = transforms.Compose(
         [torchvision.transforms.Resize((192, 192)), ToTensor(), Normalize(mean, std)])
 
-    train_data = dataset_norm(root=args.train_data_dir, transforms=transformations, imgSize=192, inputsize=128,
+    train_data = dataset_norm(root='', transforms=transformations, imgSize=192, inputsize=128,
                               imglist1=train_ls_original,
                               imglist2=train_ls_mask,
                               imglist3=train_ls_clahe)
     train_loader = DataLoader(train_data, batch_size=args.train_batch_size, shuffle=True, num_workers=4)
     print('train data: %d images' % (len(train_loader.dataset)))
 
-    valid_data = dataset_norm(root=args.train_data_dir, transforms=transformations_valid, imgSize=192, inputsize=128,
+    valid_data = dataset_norm(root='', transforms=transformations_valid, imgSize=192, inputsize=128,
                               imglist1=valid_ls_original,
                               imglist2=valid_ls_mask,
                               imglist3=valid_ls_clahe)
@@ -391,3 +389,4 @@ if __name__ == '__main__':
             torch.save(dis.state_dict(), join(args.save_weight_dir, 'Dis_former_%d.pt' % epoch))
 
     writer.close()
+
