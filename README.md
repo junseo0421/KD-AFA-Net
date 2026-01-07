@@ -68,7 +68,10 @@ KD-AFA-Net achieves the best EER across all three datasets.
 
 ## References
 [1] A. Kumar, Y. Zhou, Human identification using finger images, IEEE Trans. Image Process. 21 (2012) 2228–2244. https://doi.org/10.1109/TIP.2011.2171697.
+
 [2] Y. Yin, L. Liu, X. Sun, SDUMLA-HMT: A multimodal biometric database, in: Proc. the 6th Chinese Conference on Biometric Recognition, 2011, pp. 260–268. https://doi.org/10.1007/978-3-642-25449-9_33.
+
 [3] Y. Lu, S.J. Xie, S. Yoon, Z. Wang, D.S. Park, An available database for the research of finger vein recognition, in: Proc. 2013 6th Int. Congr. Image Signal Process., 2013, vol. 1, pp. 410–415. https://doi.org/10.1109/CISP.2013.6744030.
+
 
 
