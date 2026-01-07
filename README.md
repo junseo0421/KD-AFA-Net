@@ -2,7 +2,7 @@
 KD-AFA-Net is a lightweight outpainting network for contactless finger-vein images using FFT-based AFA and knowledge distillation, achieving EERs of 2.56/3.49/1.78% on HKPU/SDUMLA-HMT/MMCBNU_6000.
 
 <details>
-<summary>**Abstract (click to expand)**</summary>
+<summary><b>Abstract (click to expand)<b></summary>
 Despite fast authentication and user convenience, the lack of a fixed frame in contactless finger-vein acquisition causes missing regions and discrepancies between enrolled and query images, thereby degrading recognition performance. Existing image outpainting-based methods restore missing regions but often contain a large number of parameters, making them slow and unsuitable for real-time applications. To overcome these issues, this paper proposes a lightweight image outpainting network called knowledge distilled adaptive frequency attention network (KD-AFA-Net). KD-AFA-Net is based on a lightweight model that uses thinner separable U-Net with knowledge distillation (KD) from a high-performance teacher. In addition, to compensate for the limitations of convolutional neural networks (CNNs) in capturing global information, a novel adaptive frequency attention (AFA) module is designed. The AFA module decomposes intermediate features via a two-dimensional fast Fourier transform (FFT), learns the importance of high-frequency and low-frequency components, and emphasizes the important ones. Furthermore, this paper also proposes the AFA KD loss which enables the student model to effectively learn the frequency-domain refined outputs of the teacher’s AFA module. Moreover, we analyze recognition performance and use large language models (LLMs), ChatGPT-4o and ChatGPT-5 to prioritize experiments and to examine utilization strategies for future image-based tasks. Experiments on the Hong Kong Polytechnic University finger-image database version 1, the Shandong University machine learning and applications-homologous multi-modal traits (SDUMLA-HMT) finger-vein database, and the MMCBNU_6000 database show that KD-AFA-Net achieves equal error rates (EERs) of 2.56%, 3.49%, and 1.78% respectively, outperforming state-of-the-art image outpainting and KD methods while supporting real-time efficiency.
 </details>
 
@@ -39,7 +39,7 @@ Despite fast authentication and user convenience, the lack of a fixed frame in c
 ## 📊 Results (EER, %)
 KD-AFA-Net achieves the best EER across all three datasets.
 <details>
-<summary><b>**Full comparison table (EER, %)**</b></summary>
+<summary><b>Full comparison table (EER, %)</b></summary>
 
 | Method | HKPU-DB | SDU-DB | MMCBNU-DB |
 |---|---:|---:|---:|
@@ -72,6 +72,7 @@ KD-AFA-Net achieves the best EER across all three datasets.
 [2] Y. Yin, L. Liu, X. Sun, SDUMLA-HMT: A multimodal biometric database, in: Proc. the 6th Chinese Conference on Biometric Recognition, 2011, pp. 260–268. https://doi.org/10.1007/978-3-642-25449-9_33.
 
 [3] Y. Lu, S.J. Xie, S. Yoon, Z. Wang, D.S. Park, An available database for the research of finger vein recognition, in: Proc. 2013 6th Int. Congr. Image Signal Process., 2013, vol. 1, pp. 410–415. https://doi.org/10.1109/CISP.2013.6744030.
+
 
 
 
